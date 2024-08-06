@@ -1,0 +1,31 @@
+section .text
+        global _start
+
+_sum:
+        push ebp
+        mov ebp, esp
+        sub esp, 4
+        mov eax, dword[ebp+8]  
+        add eax, dword[ebp+12]   
+        add eax, dword[ebp+16]
+        
+        mov [result], eax       ;result is a global variable here
+        leave
+        ret
+
+_start:
+        push dword[x]
+        push dword[y]
+        push dword[z]
+        call _sum
+        mov eax, 1
+        int 0x80
+
+section .data
+        x dd 10
+        y dd 20
+        z dd 30
+        mov dword[ebp-4], eax   
+
+segment .bss
+  result resb 1
